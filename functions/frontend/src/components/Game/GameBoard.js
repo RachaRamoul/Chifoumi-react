@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import "../../styles/GameBoard.css";
+import React from 'react';
+
 
 function GameBoard({ playGame }) {
   const [selected, setSelected] = useState(null);

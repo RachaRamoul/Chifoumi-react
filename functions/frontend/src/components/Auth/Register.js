@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import "../../styles/register.css";
 import { FaUser, FaLock } from "react-icons/fa";
+import React from 'react';
+
 
 const Register = () => {
   const { login } = useAuth();
