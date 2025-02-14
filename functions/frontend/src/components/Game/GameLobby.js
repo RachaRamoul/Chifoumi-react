@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useMatches } from "../../hooks/useMatches";
 import "../../styles/GameLobby.css";
 
-const API_URL = "http://localhost:3002";
+const API_URL = "https://chifoumi.kmarques.dev/";
 
 function GameLobby() {
   const { createMatch, joinMatch, getUserMatches } = useMatches();
