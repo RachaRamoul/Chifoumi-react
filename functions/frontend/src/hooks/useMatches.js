@@ -3,7 +3,7 @@ import { useCallback } from "react";
 import React from 'react';
 
 
-const API_URL = "https://chifoumi.kmarques.dev/";
+const API_URL = "https://chifoumi.kmarques.dev";
 
 export function useMatches() {
   const navigate = useNavigate();

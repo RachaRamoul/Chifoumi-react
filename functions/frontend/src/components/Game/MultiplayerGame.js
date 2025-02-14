@@ -4,7 +4,7 @@ import { io } from "socket.io-client";
 import useAuth from "../../hooks/useAuth";
 import "../../styles/MultiPlayerGame.css";
 
-const socket = io("https://chifoumi.kmarques.dev/");
+const socket = io("https://chifoumi.kmarques.dev");
 
 function MultiplayerGame() {
   const { matchId } = useParams();
@@ -23,7 +23,7 @@ function MultiplayerGame() {
       return;
     }
 
-    fetch(`https://chifoumi.kmarques.dev//matches/${matchId}`, {
+    fetch(`https://chifoumi.kmarques.dev/matches/${matchId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
