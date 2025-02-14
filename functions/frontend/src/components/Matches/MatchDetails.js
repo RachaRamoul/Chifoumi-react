@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-const API_URL = "https://chifoumi.kmarques.dev";
+const API_URL = "http://localhost:3002";
 
 function MatchDetails() {
   const { matchId } = useParams();
@@ -11,7 +11,7 @@ function MatchDetails() {
     console.log("🆔 Match ID reçu :", matchId); 
 
     if (!matchId || matchId === "undefined") {
-      console.error("❌ Erreur : matchId est undefined !");
+      console.error("Erreur : matchId est undefined !");
       return;
     }
 
@@ -29,10 +29,10 @@ function MatchDetails() {
           const data = await response.json();
           setMatch(data);
         } else {
-          console.error("❌ Erreur lors de la récupération du match.");
+          console.error("Erreur lors de la récupération du match.");
         }
       } catch (error) {
-        console.error("❌ Erreur réseau :", error);
+        console.error("Erreur réseau :", error);
       }
     };
 

@@ -1,21 +1,58 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { io } from "socket.io-client";
 import useAuth from "../../hooks/useAuth";
 import "../../styles/MultiPlayerGame.css";
 
-const socket = io("https://chifoumi.kmarques.dev");
+const API_URL = "http://localhost:3002";
 
 function MultiplayerGame() {
   const { matchId } = useParams();
   const navigate = useNavigate();
   const { user } = useAuth();
-
   const [match, setMatch] = useState(null);
   const [turns, setTurns] = useState([]); 
-  const [currentRound, setCurrentRound] = useState([]); 
   const [winner, setWinner] = useState(null);
   const [isMyTurn, setIsMyTurn] = useState(false);
+
+  const fetchMatchData = async () => {
+    try {
+      const response = await fetch(`${API_URL}/matches/${matchId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Mise à jour des données du match:", data);
+
+        setMatch(data);
+        setTurns(data.turns || []);
+
+        if (data.winner) {
+          console.log(`Gagnant: ${data.winner.username || "Égalité"}`);
+          setWinner(data.winner.username || "Égalité");
+          return;
+        }
+
+        if (data.user1 && data.user2) {
+          const latestTurn = data.turns[data.turns.length - 1];
+
+          if (!latestTurn || (latestTurn.user1 && latestTurn.user2)) {
+            setIsMyTurn(data.user1._id === user._id);
+          } else {
+            setIsMyTurn(data.user2._id === user._id);
+          }
+        }
+      } else {
+        console.error("Erreur lors de la récupération du match.");
+      }
+    } catch (error) {
+      console.error("Erreur réseau :", error);
+    }
+  };
 
   useEffect(() => {
     if (!matchId) {
@@ -23,70 +60,54 @@ function MultiplayerGame() {
       return;
     }
 
-    fetch(`https://chifoumi.kmarques.dev/matches/${matchId}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => setMatch(data))
-      .catch((err) =>
-        console.error("❌ Erreur lors de la récupération du match :", err)
-      );
-  }, [matchId]);
+    const intervalId = setInterval(fetchMatchData, 3000);
+    return () => clearInterval(intervalId);
+  }, [matchId, user._id]);
 
-  useEffect(() => {
-    if (!matchId) return;
-
-    socket.emit("joinMatch", matchId);
-
-    socket.on("playerJoined", () =>
-      console.log("👤 Joueur connecté :", user.username)
-    );
-    socket.on("gameStart", () => {
-      setIsMyTurn(true);
-    });
-    socket.on("waitingForPlayer", () => setIsMyTurn(false));
-    socket.on("turnPlayed", (turnData) => {
-      setCurrentRound((prevRound) => [...prevRound, turnData]);
-
-      if (turnData.username !== user.username) {
-        setIsMyTurn(true); 
-      }
-    });
-
-    socket.on("gameOver", ({ winner }) => setWinner(winner));
-
-    return () => {
-      socket.off("playerJoined");
-      socket.off("gameStart");
-      socket.off("waitingForPlayer");
-      socket.off("turnPlayed");
-      socket.off("gameOver");
-    };
-  }, [matchId, user.username]);
-
-  useEffect(() => {
-    if (currentRound.length === 2) {
-      setTurns((prevTurns) => [...prevTurns, currentRound]); 
-      setTimeout(() => setCurrentRound([]), 2000); 
-    }
-  }, [currentRound]);
-
-  const playTurn = (choice) => {
+  const playTurn = async (choice) => {
     if (!isMyTurn) {
       alert("⚠️ Ce n'est pas votre tour !");
       return;
     }
-    socket.emit("playTurn", matchId, { username: user.username, choice });
-    setIsMyTurn(false);
-  };
 
-  const handleBackToLobby = () => {
-    console.log("🚀 Redirection vers /matches");
-    navigate("/matches");
+    if (turns.length >= 6) {
+      alert("La partie est terminée !");
+      return;
+    }
+
+    try {
+      let turnId;
+      if (turns.length === 0 || (turns[turns.length - 1].user1 && turns[turns.length - 1].user2)) {
+        turnId = turns.length + 1;
+      } else {
+        turnId = turns.length;
+      }
+
+      console.log(`🎯 Joueur: ${user.username} | Tour: ${turnId} | Choix: ${choice}`);
+
+      const response = await fetch(`${API_URL}/matches/${matchId}/turns/${turnId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({ move: choice }),
+      });
+
+      const responseData = await response.json();
+
+      if (response.ok) {
+        console.log("Coup envoyé avec succès !");
+        console.log("Réponse backend :", responseData);
+        setIsMyTurn(false);
+
+        fetchMatchData();
+      } else {
+        console.error("Erreur lors de l'envoi du coup :", responseData);
+      }
+    } catch (error) {
+      console.error("Erreur réseau :", error);
+    }
   };
 
   return (
@@ -102,6 +123,9 @@ function MultiplayerGame() {
           <h2 className="winner">
             🏆 Le gagnant est : {winner === "draw" ? "Égalité" : winner}
           </h2>
+          <button className="back-to-lobby" onClick={() => navigate("/matches")}>
+            Retour au lobby
+          </button>
         </div>
       ) : (
         <>
@@ -110,27 +134,9 @@ function MultiplayerGame() {
           </h2>
 
           <div className="choices">
-            <button
-              className={`choice-btn ${!isMyTurn && "disabled"}`}
-              onClick={() => playTurn("rock")}
-              disabled={!isMyTurn}
-            >
-              ✊ Pierre
-            </button>
-            <button
-              className={`choice-btn ${!isMyTurn && "disabled"}`}
-              onClick={() => playTurn("paper")}
-              disabled={!isMyTurn}
-            >
-              📄 Papier
-            </button>
-            <button
-              className={`choice-btn ${!isMyTurn && "disabled"}`}
-              onClick={() => playTurn("scissors")}
-              disabled={!isMyTurn}
-            >
-              ✂️ Ciseaux
-            </button>
+            <button className={`choice-btn ${!isMyTurn && "disabled"}`} onClick={() => playTurn("rock")} disabled={!isMyTurn}>✊ Pierre</button>
+            <button className={`choice-btn ${!isMyTurn && "disabled"}`} onClick={() => playTurn("paper")} disabled={!isMyTurn}>📄 Papier</button>
+            <button className={`choice-btn ${!isMyTurn && "disabled"}`} onClick={() => playTurn("scissors")} disabled={!isMyTurn}>✂️ Ciseaux</button>
           </div>
 
           <div className="game-info">
@@ -139,33 +145,16 @@ function MultiplayerGame() {
               <p className="no-turns-message">⚠️ Aucune manche terminée !</p>
             ) : (
               <ul>
-                {turns.map((round, index) => (
+                {turns.map((turn, index) => (
                   <li key={index}>
-                    {round.map((turn) => (
-                      <p key={turn.username}>
-                        {turn.choice === "rock" && " 🪨 "}
-                        {turn.choice === "paper" && " 📄 "}
-                        {turn.choice === "scissors" && " ✂️ "}
-                        {turn.username} a choisi {turn.choice}
-                      </p>
-                    ))}
+                    <p><strong>Tour {index + 1} :</strong> {turn.user1} vs {turn.user2} - 🏆 {turn.winner}</p>
                   </li>
                 ))}
               </ul>
             )}
           </div>
-
-          <div >
-            {currentRound.length === 1 && (
-              <p className="current-round">🔒 {currentRound[0].username} a joué ... 🤫</p>
-            )}
-          </div>
         </>
       )}
-
-      <button className="back-to-lobby" onClick={handleBackToLobby}>
-        Retour au lobby
-      </button>
     </div>
   );
 }

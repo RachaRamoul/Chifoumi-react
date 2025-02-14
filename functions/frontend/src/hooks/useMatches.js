@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useCallback } from "react";
 import React from "react";
 
-const API_URL = "https://chifoumi.kmarques.dev";
+const API_URL = "http://localhost:3002";
 
 export function useMatches() {
   const navigate = useNavigate();
@@ -16,35 +16,23 @@ export function useMatches() {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
+
       if (response.ok) {
         const data = await response.json();
-        const matchId = data._id;
-
-        if (!matchId) {
-          alert("Erreur lors de la création du match. Réessayez.");
-          return null;
-        }
-
-        console.log("Match créé :", data.matchId);
-        navigate(`/game/${matchId}`);
-        return matchId;
+        console.log("Match créé:", data);
+        navigate(`/game/${data._id}`);
+        return data._id;
       } else {
-        const errorData = await response.json();
-        console.error("Erreur lors de la création du match :", errorData);
+        console.error("Erreur lors de la création du match");
         return null;
       }
     } catch (error) {
-      console.error("Erreur réseau lors de la création du match :", error);
+      console.error("Erreur réseau lors de la création du match:", error);
       return null;
     }
   };
 
   const joinMatch = async (matchId) => {
-    if (!matchId) {
-      alert("Veuillez entrer un ID de match valide !");
-      return false;
-    }
-
     try {
       const response = await fetch(`${API_URL}/matches/join`, {
         method: "POST",
@@ -56,15 +44,15 @@ export function useMatches() {
       });
 
       if (response.ok) {
+        console.log(`Match rejoint: ${matchId}`);
         navigate(`/game/${matchId}`);
         return true;
       } else {
-        const errorData = await response.json();
-        console.error("Erreur lors de la tentative de rejoindre le match :", errorData);
+        console.error("Erreur en rejoignant la partie");
         return false;
       }
     } catch (error) {
-      console.error("Erreur réseau lors de la tentative de rejoindre le match :", error);
+      console.error("Erreur réseau:", error);
       return false;
     }
   };
@@ -81,31 +69,14 @@ export function useMatches() {
 
       if (response.ok) {
         const allMatches = await response.json();
-        console.log("🔍 Données brutes reçues :", allMatches);
-
-        const storedUser = localStorage.getItem("user");
-        const currentUser = storedUser ? JSON.parse(storedUser).username : null;
-        console.log("Utilisateur actuel :", currentUser);
-
-        if (!currentUser) {
-          console.error("Aucun utilisateur trouvé, aucun match ne peut être filtré.");
-          return [];
-        }
-
-        const userMatches = allMatches.filter((match) => {
-          console.log("Vérification match:", match);
-          console.log("user1:", match.user1?.username, " | user2:", match.user2?.username);
-          return match.user1?.username === currentUser || match.user2?.username === currentUser;
-        });
-
-        console.log("Matchs filtrés :", userMatches);
-        return userMatches;
+        console.log("🔍 All Matches received:", allMatches);
+        return allMatches;
       } else {
-        console.error("Erreur lors de la récupération des matchs");
+        console.error("Error fetching matches");
         return [];
       }
     } catch (error) {
-      console.error("Erreur réseau lors de la récupération des matchs :", error);
+      console.error("Network error fetching matches:", error);
       return [];
     }
   }, []);
