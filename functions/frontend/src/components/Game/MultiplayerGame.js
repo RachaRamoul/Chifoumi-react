@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import "../../styles/MultiPlayerGame.css";
 
-const API_URL = "http://localhost:3002";
+const API_URL = "https://chifoumi.kmarques.dev";
 
 function MultiplayerGame() {
   const { matchId } = useParams();

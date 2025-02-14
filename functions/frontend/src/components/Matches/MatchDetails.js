@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-const API_URL = "http://localhost:3002";
+const API_URL = "https://chifoumi.kmarques.dev";
 
 function MatchDetails() {
   const { matchId } = useParams();
