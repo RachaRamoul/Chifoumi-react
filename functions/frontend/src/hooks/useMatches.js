@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import { useCallback } from "react";
-import React from "react";
 
 const API_URL = "http://localhost:3002";
 

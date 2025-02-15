@@ -15,10 +15,6 @@ function GameLobby() {
       const allMatches = await getUserMatches();
       const openMatches = allMatches.filter((match) => match.user2 === null);
       const completedMatches = allMatches.filter((match) => match.user2 !== null);
-
-      console.log("🎮 Open Matches:", openMatches);
-      console.log("📜 Past Matches:", completedMatches);
-
       setMatches(openMatches);
       setPastMatches(completedMatches);
     };
@@ -28,12 +24,10 @@ function GameLobby() {
 
   const handleJoinMatch = async () => {
     if (matches.length > 0) {
-      // There is an open match, join the first available one
       const matchToJoin = matches[0];
       console.log(`Joining match: ${matchToJoin._id}`);
       await joinMatch(matchToJoin._id);
     } else {
-      // No open matches, create a new one
       console.log("No open matches found. Creating a new match...");
       await createMatch();
     }
@@ -44,15 +38,12 @@ function GameLobby() {
       <h2 className="title">Bienvenue au Chifoumi</h2>
 
       <div className="lobby-options">
-        <button onClick={() => setViewHistory(false)}>🔄 Rejoindre une Partie</button>
         <button onClick={() => setViewHistory(true)}>📜 Voir l'Historique</button>
       </div>
 
       {!viewHistory ? (
         <div className="join-match">
-          <h3>🎮 Parties en attente 🎮</h3>
-          {matches.length === 0 ? <p>Aucune partie en attente.</p> : <p>{matches.length} parties disponibles.</p>}
-          <button onClick={handleJoinMatch}>🚀 Rejoindre une Partie</button>
+          <button onClick={handleJoinMatch}>🚀 Rejoindre ou Créer une Partie</button>
         </div>
       ) : (
         <div className="match-history">
@@ -65,7 +56,7 @@ function GameLobby() {
                 <li key={match._id}>
                   <p><strong>👤 Joueur 1:</strong> {match.user1.username}</p>
                   <p><strong>👤 Joueur 2:</strong> {match.user2?.username || "En attente"}</p>
-                  <p><strong>🏆 Résultat:</strong> {match.winner ? match.winner.username : "Match nul"}</p>
+                  <p><strong>🏆 Résultat:</strong> {match.winner ? (typeof match.winner === "object" ? match.winner.username : match.winner) : "Match nul"}</p>
                 </li>
               ))}
             </ul>

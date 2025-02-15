@@ -52,7 +52,7 @@ const Login = () => {
               className=""
             />
           </div>
-          <h1 className="login-title">Bienvenue au Chifoumi</h1>
+          <h1 className="login-title">Connexion</h1>
           {error && <p className="error-message">{error}</p>}
         </div>
         <form onSubmit={handleSubmit} className="login-form">

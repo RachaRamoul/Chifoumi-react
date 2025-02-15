@@ -1,152 +1,152 @@
 body {
-    margin: 0;
-    font-family: "Roboto", sans-serif;
-    background: linear-gradient(to bottom, #ffe29f, #ff8c42, #ff6161);
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+  margin: 0;
+  font-family: "Roboto", sans-serif;
+  background: linear-gradient(to bottom, #ffe29f, #ff8c42, #ff6161);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
   
-  .multiplayer-game {
-    max-width: 800px;
-    width: 95%;
-    background: #ffffff;
-    border-radius: 24px;
-    padding: 3rem;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-    text-align: center;
-  }
-  
-  .game-title {
-    font-size: 2.5rem;
-    color: #ff6161;
-    font-weight: bold;
-    margin-bottom: 1rem;
-  }
-  
-  .match-id {
-    font-size: 1.8rem;
-    color: #000;
-  }
-  
-  .turn-status {
-    font-size: 1.8rem;
-    margin-bottom: 2rem;
-  }
-  
-  .turn-status.your-turn {
-    color: #4caf50;
-  }
-  
-  .turn-status.waiting {
-    color: #f44336;
-  }
-  
-  .choices {
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 2rem;
-  }
-  
-  .choice-btn {
-    background: linear-gradient(135deg, #ff8c42, #ff6161);
-    color: #ffffff;
-    border: none;
-    border-radius: 8px;
-    padding: 1rem 2rem;
-    font-size: 1.2rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.3s ease, transform 0.2s ease;
-  }
-  
-  .choice-btn:hover {
-    background: linear-gradient(135deg, #ff6161, #ffa500);
-    transform: translateY(-2px);
-  }
-  
-  .choice-btn:active {
-    transform: translateY(1px);
-  }
-  
-  .choice-btn.disabled {
-    background: #e0e0e0;
-    cursor: not-allowed;
-  }
-  
+.multiplayer-game {
+  max-width: 800px;
+  width: 95%;
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 3rem;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.game-title {
+  font-size: 2.5rem;
+  color: #ff6161;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.match-id {
+  font-size: 1.8rem;
+  color: #000;
+}
+
+.turn-status {
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+}
+
+.turn-status.your-turn {
+  color: #4caf50;
+}
+
+.turn-status.waiting {
+  color: #f44336;
+}
+
+.choices {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 2rem;
+}
+
+.choice-btn {
+  background: linear-gradient(135deg, #ff8c42, #ff6161);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.choice-btn:hover {
+  background: linear-gradient(135deg, #ff6161, #ffa500);
+  transform: translateY(-2px);
+}
+
+.choice-btn:active {
+  transform: translateY(1px);
+}
+
+.choice-btn.disabled {
+  background: #e0e0e0;
+  cursor: not-allowed;
+}
+
 .game-info {
-    margin-top: 2rem;
-    text-align: center; 
-  }
-  
-  .game-info h2 {
-    font-size: 1.8rem; 
-    margin-bottom: 1rem;
-  }
-  
-  .game-info ul {
-    list-style: none;
-    padding: 0;
-    display: inline-block; 
-  }
-  
-  .game-info li {
-    font-size: 1.5rem; 
-    margin-bottom: 0.8rem; 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .current-round {
-    font-size: 1.5rem; 
-    margin-bottom: 0.8rem; 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .opponent-move {
-    margin-top: 1rem;
-    font-size: 1.2rem;
-    color: #555;
-  }
-  
-  .opponent-icon {
-    font-weight: bold;
-    margin-right: 0.5rem;
-    color: #ff8c42;
-  }
-  
-  .winner-section {
-    margin-top: 2rem;
-  }
-  
-  .winner {
-    font-size: 2.5rem;
-    color: #ff6161;
-    font-weight: bold;
-  }
-  
-  .back-to-lobby {
-    background: linear-gradient(135deg, #ff8c42, #ff6161);
-    color: white;
-    font-size: 1rem;
-    padding: 0.8rem 1.5rem;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    margin-top: 1rem;
-    transition: background 0.3s ease, transform 0.2s ease;
-  }
-  
-  .back-to-lobby:hover {
-    background: linear-gradient(135deg, #ff6161, #ffa500);
-    transform: translateY(-2px);
-  }
-  
-  .back-to-lobby:active {
-    transform: translateY(1px);
-  }
+  margin-top: 2rem;
+  text-align: center; 
+}
+
+.game-info h2 {
+  font-size: 1.8rem; 
+  margin-bottom: 1rem;
+}
+
+.game-info ul {
+  list-style: none;
+  padding: 0;
+  display: inline-block; 
+}
+
+.game-info li {
+  font-size: 1.5rem; 
+  margin-bottom: 0.8rem; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.current-round {
+  font-size: 1.5rem; 
+  margin-bottom: 0.8rem; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.opponent-move {
+  margin-top: 1rem;
+  font-size: 1.2rem;
+  color: #555;
+}
+
+.opponent-icon {
+  font-weight: bold;
+  margin-right: 0.5rem;
+  color: #ff8c42;
+}
+
+.winner-section {
+  margin-top: 2rem;
+}
+
+.winner {
+  font-size: 2.5rem;
+  color: #ff6161;
+  font-weight: bold;
+}
+
+.back-to-lobby {
+  background: linear-gradient(135deg, #ff8c42, #ff6161);
+  color: white;
+  font-size: 1rem;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.back-to-lobby:hover {
+  background: linear-gradient(135deg, #ff6161, #ffa500);
+  transform: translateY(-2px);
+}
+
+.back-to-lobby:active {
+  transform: translateY(1px);
+}
   

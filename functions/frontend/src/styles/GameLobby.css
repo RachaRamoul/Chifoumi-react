@@ -8,15 +8,20 @@ body {
   align-items: center;
 }
 
+
 .game-lobby {
-  max-width: 900px; 
-  width: 100%; 
+  max-width: 900px;
+  width: 100%;
   background: #ffffff;
   border-radius: 24px;
   padding: 2rem;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
   text-align: center;
   overflow: hidden;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .title {
@@ -24,6 +29,35 @@ body {
   color: #ff6161;
   font-weight: bold;
   margin-bottom: 2rem;
+  text-align: center;
+}
+
+.lobby-options {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.lobby-options button {
+  background: linear-gradient(135deg, #ff8c42, #ff6161);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.lobby-options button:hover {
+  background: linear-gradient(135deg, #ff6161, #ffa500);
+  transform: translateY(-2px);
+}
+
+.lobby-options button:active {
+  transform: translateY(1px);
 }
 
 .create-match,
@@ -58,26 +92,12 @@ body {
   transform: translateY(1px);
 }
 
-.join-match input {
-  border: 2px solid #ff8c42;
-  border-radius: 8px;
-  padding: 1rem;
-  width: 400px;
-  font-size: 1.1rem;
-  outline: none;
-  transition: border-color 0.3s ease;
-}
-
-.rejoindre {
-  margin-left: 10px;
-}
-
-.join-match input:focus {
-  border-color: #ffa500;
-}
-
 .match-history {
   margin-top: 3rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .match-history ul {
@@ -87,6 +107,7 @@ body {
   border-radius: 8px;
   background: #fff5f5;
   border: 1px solid #ff8c42;
+  width: 100%;
 }
 
 .match-history li {
@@ -98,6 +119,7 @@ body {
   border-radius: 8px;
   padding: 1.5rem;
   margin-bottom: 15px;
+  width: 100%;
 }
 
 .match-history li button {
