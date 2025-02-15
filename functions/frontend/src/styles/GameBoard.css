@@ -1,73 +1,72 @@
 body {
-    margin: 0;
-    font-family: 'Roboto', sans-serif;
-    background: linear-gradient(to bottom, #ffe29f, #ffa99f);
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .game-board {
-    text-align: center;
-    background: #ffffff;
-    border-radius: 24px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-    padding: 2rem;
-    width: 90%;
-    max-width: 500px;
-    margin: auto;
-  }
-  
-  .game-title {
-    font-size: 2rem;
-    color: #ff6161;
-    font-weight: bold;
-    margin-bottom: 1.5rem;
-  }
-  
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  background: linear-gradient(to bottom, #ffe29f, #ffa99f);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.game-board {
+  text-align: center;
+  background: #ffffff;
+  border-radius: 24px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  padding: 2rem;
+  width: 90%;
+  max-width: 500px;
+  margin: auto;
+}
+
+.game-title {
+  font-size: 2rem;
+  color: #ff6161;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
+
+.choices {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.choice-btn {
+  background: linear-gradient(135deg, #ff8c42, #ff6161);
+  color: #ffffff;
+  border: none;
+  border-radius: 16px;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.choice-btn:hover {
+  background: linear-gradient(135deg, #ff6161, #ffa500);
+  transform: scale(1.1);
+}
+
+.choice-btn.selected {
+  background: linear-gradient(135deg, #ffa500, #ffcc33);
+  box-shadow: 0 6px 20px rgba(255, 204, 51, 0.5);
+}
+
+.choice-text {
+  font-size: 1.2rem;
+}
+
+@media (max-width: 768px) {
   .choices {
-    display: flex;
-    justify-content: center;
+    flex-direction: column;
     gap: 1rem;
   }
-  
+
   .choice-btn {
-    background: linear-gradient(135deg, #ff8c42, #ff6161);
-    color: #ffffff;
-    border: none;
-    border-radius: 16px;
-    padding: 1rem 2rem;
-    font-size: 1rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: transform 0.2s ease, background 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    padding: 1rem;
   }
-  
-  .choice-btn:hover {
-    background: linear-gradient(135deg, #ff6161, #ffa500);
-    transform: scale(1.1);
-  }
-  
-  .choice-btn.selected {
-    background: linear-gradient(135deg, #ffa500, #ffcc33);
-    box-shadow: 0 6px 20px rgba(255, 204, 51, 0.5);
-  }
-  
-  .choice-text {
-    font-size: 1.2rem;
-  }
-  
-  @media (max-width: 768px) {
-    .choices {
-      flex-direction: column;
-      gap: 1rem;
-    }
-  
-    .choice-btn {
-      width: 100%;
-      padding: 1rem;
-    }
-  }
-  
+}

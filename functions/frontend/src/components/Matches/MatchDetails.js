@@ -8,8 +8,6 @@ function MatchDetails() {
   const [match, setMatch] = useState(null);
 
   useEffect(() => {
-    console.log("🆔 Match ID reçu :", matchId); 
-
     if (!matchId || matchId === "undefined") {
       console.error("Erreur : matchId est undefined !");
       return;

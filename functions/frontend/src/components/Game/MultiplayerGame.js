@@ -56,7 +56,7 @@ function MultiplayerGame() {
 
   useEffect(() => {
     if (!matchId) {
-      console.error("⚠️ Erreur : matchId est NULL !");
+      console.error("Erreur : matchId est NULL");
       return;
     }
 
@@ -66,7 +66,7 @@ function MultiplayerGame() {
 
   const playTurn = async (choice) => {
     if (!isMyTurn) {
-      alert("⚠️ Ce n'est pas votre tour !");
+      alert("Ce n'est pas votre tour !");
       return;
     }
 
@@ -145,12 +145,25 @@ function MultiplayerGame() {
               <p className="no-turns-message">⚠️ Aucune manche terminée !</p>
             ) : (
               <ul>
-                {turns.map((turn, index) => (
-                  <li key={index}>
-                    <p><strong>Tour {index + 1} :</strong> {turn.user1} vs {turn.user2} - 🏆 {turn.winner}</p>
-                  </li>
-                ))}
+                {turns.map((turn, index) => {
+                  let winnerName = "En cours";
+                  if (turn.winner === "user1") {
+                    winnerName = match.user1.username;
+                  } else if (turn.winner === "user2") {
+                    winnerName = match.user2.username;
+                  }
+
+                  return (
+                    <li key={index}>
+                      <p>
+                        <strong>Tour {index + 1} :</strong> {match.user1.username} vs {match.user2.username} 
+                        - 🏆 {winnerName}
+                      </p>
+                    </li>
+                  );
+                })}
               </ul>
+
             )}
           </div>
         </>

@@ -30,11 +30,6 @@ const Register = () => {
       const data = await response.json();
 
       if (response.ok) {
-        if (!data.token) {
-          console.error("🚨 Erreur : le token n'est pas présent !");
-          return;
-        }
-
         login(data.token);
         alert("Inscription réussie !");
         navigate("/matches");
